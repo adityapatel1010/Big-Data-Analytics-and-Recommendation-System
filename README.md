@@ -1,50 +1,62 @@
-# Docker-on-Hadoop
- This repo will help you how to install hadoop on docker container
+# Big Data Analytics and Recommendation System
 
-# Pre-requisite:
-                                                                          
--> Git                                                                                  
--> Docker
+This project implements a **scalable document ranking and recommendation system** designed to address the limitations of traditional keyword-based search engines.  
+By leveraging **Apache Hadoop** for distributed processing and **sentence embeddings** for semantic similarity, the system provides **context-aware search results** from massive document repositories.
 
-# Steps to follow:
-By Following these steps you will able to setup the hadoop setup on docker container                                    
-                                                                                                                      
-Step 1: Clone the "docker-hadoop" repository from GitHub using the following command:                                   
-git clone https://github.com/huzaifa-bilal-01/Hadoop-on-Docker.git                                              
+---
 
-Step 2: cd Hadoop-on-Docker
+## Motivation
+Conventional Boolean search models suffer from poor flexibility and ranking quality, as they rely on direct keyword matches without understanding semantic relationships. With the explosive growth of unstructured data, there is a critical need for **context-sensitive ranking models** that improve retrieval effectiveness.  
 
-Step 3: 
-docker-compose up -d
+This project shifts the paradigm of search towards **semantic similarity-based ranking**, improving user experience and relevance across large-scale document libraries.
 
-Step 4: 
-docker container ls
+---
 
-Step 5:
-docker exec -it namenode /bin/bash
+## Problem Statement
+- Traditional search engines only match **keywords**, failing to capture **contextual meaning**.  
+- Results may include irrelevant documents while missing conceptually related ones.  
+- With rapidly expanding repositories, conventional models **struggle with scalability and efficiency**.  
 
-# Running Hadoop Code:
+**Goal:** Develop a **semantic search and recommendation system** that uses **sentence embeddings** and **TF-IDF weighting** to rank documents based on conceptual similarity, not just keyword overlap.  
 
-Step 1: Copy the code folder on docker conatiner by running this command on the terminal (opened in the folder where you have cloned the repo):
-                                                                                                                                           
-docker cp code namenode:/                                                              
-                                                                                                                        
-Step 2: Then go into Hadoop_Code directory and further into input directory from where you have to copy the data.txt file
-                                                                                                                             
-Step 3: Create some directories in hadoop file system by following command:                                                 
-      -> hdfs dfs -mkdir /user                                                                       
-      -> hdfs dfs -mkdir /user/root                                                                                                 
-      -> hdfs dfs -mkdir /user/root/input                                                                                        
-                                                                                                                                                      
-Step 4: Copy the data.txt to the input directory (user/root/input) created in hadoop file system by following command:                   
-      -> hdfs dfs -put data.txt /user/root/input                                                                            
-                                                                                                                                          
-Step 5: Return back to directory where wordCount.jar file is located:                                                    
-      -> cd ../
-                                                                                                                                                  
-Step 6: Then execute the jar file by following command:                                                                        
-      -> hadoop jar wordCount.jar org.apache.hadoop.examples.WordCount input output                                               
-                                                                                                                                                                   
-Step 7: Display the output usind this command:                                                                              
-      -> hdfs dfs -cat /user/root/output/*
-      
+---
+
+## Methodology
+1. Convert documents and queries into **high-dimensional embeddings** to capture semantic meaning.  
+2. Use **TF-IDF** with **cosine similarity** for ranking document relevance.  
+3. Employ **Apache Hadoop** to handle distributed computation and large-scale processing.  
+4. Retrieve and rank the top N most relevant documents for user queries.  
+
+---
+
+## Experimental Setup
+- Data stored and processed in **HDFS** (Hadoop Distributed File System).  
+- **Apache Hadoop in Docker** used for scalable distributed computation.  
+- **Workflow**:
+  - Load `.txt` documents into HDFS.  
+  - Mapper: Tokenizes text → generates `(word, 1)`.  
+  - Reducer: Aggregates term frequencies (TF).  
+  - Second Mapper: Computes inverse document frequency (IDF).  
+  - TF-IDF vectors created and stored in HDFS.  
+  - Query processed into a TF-IDF vector.  
+  - **Cosine similarity** used to compare query vs. documents.  
+  - Results sorted → top N documents retrieved with ID, title, and rank.  
+
+---
+
+## Workflow Overview
+1. Upload documents into HDFS.  
+2. Preprocess with **MapReduce** (TF-IDF computation).  
+3. Build **inverted index** for document-term mapping.  
+4. Accept user query and compute its TF-IDF representation.  
+5. Compare query vector with document vectors using **cosine similarity**.  
+6. Rank and return top N most relevant documents.  
+
+
+---
+
+## Key Highlights
+- **Semantic search** with embeddings.  
+- **Distributed processing** using Hadoop + Docker.  
+- **Efficient TF-IDF ranking** with cosine similarity.  
+- **Improved user experience** in large-scale search applications.  
