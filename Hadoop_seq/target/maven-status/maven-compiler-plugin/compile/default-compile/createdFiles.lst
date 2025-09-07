@@ -1,0 +1,4 @@
+utils\Paths.class
+SearchEngine\Main.class
+SearchEngine\VectorWritableToSequenceFile.class
+SearchEngine\VectorWritableToSequenceFile$DoubleArrayWritable.class
